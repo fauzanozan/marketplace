@@ -15,11 +15,9 @@ import java.util.List;
 @RequestMapping("/api/user")
 public class UserController {
     private final UserService userSvc;
-    private final JwtUtil jwtUtil;
 
-    public UserController(UserService userSvc, JwtUtil jwtUtil) {
+    public UserController(UserService userSvc) {
         this.userSvc = userSvc;
-        this.jwtUtil = jwtUtil;
     }
 
     @GetMapping("/findAll")
@@ -36,17 +34,5 @@ public class UserController {
         } else {
             return ResponseEntity.ok(BaseResponse.ok("Akun Berhasil Terdaftar"));
         }
-    }
-
-    @PostMapping("/login")
-    public ResponseEntity<BaseResponse<LoginResponse>> login(@RequestBody LoginRequest loginRequest) {
-        var message = userSvc.login(loginRequest);
-        if (!message.equals("Ok")) {
-            return ResponseEntity.status(401).body(BaseResponse.error(401, "Unauthorized"));
-        }
-        return ResponseEntity.ok(BaseResponse.ok(new LoginResponse(
-                jwtUtil.generateToken(loginRequest.getUsername())),
-                message));
-
     }
 }

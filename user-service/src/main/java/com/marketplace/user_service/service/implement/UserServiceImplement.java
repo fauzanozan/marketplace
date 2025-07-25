@@ -45,19 +45,6 @@ public class UserServiceImplement implements UserService {
     }
 
     @Override
-    public String login(LoginRequest loginRequest) {
-        if(existsByUsername(loginRequest.getUsername())) {
-            var user = findByUsername(loginRequest.getUsername());
-            if (user.isPresent()) {
-                if (passwordEncoder.matches(loginRequest.getPassword(), user.get().getPassword())) {
-                    return "Ok";
-                }
-            }
-        }
-        return "Username/Password Salah";
-    }
-
-    @Override
     public Optional<User> findByUsername(String username) {
         return userRepo.findByUsername(username);
     }

@@ -10,7 +10,6 @@ import java.util.Optional;
 public interface UserService {
     List<User> getAllUser();
     String saveUser(User user);
-    String login(LoginRequest loginRequest);
     Optional<User> findByUsername(String username);
     Optional<User> findByEmail(String email);
     boolean existsByEmail(String email);
