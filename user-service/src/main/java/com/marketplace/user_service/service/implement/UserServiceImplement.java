@@ -6,6 +6,7 @@ import com.marketplace.user_service.repository.UserRepository;
 import com.marketplace.user_service.service.interfaces.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,9 +16,11 @@ import java.util.Optional;
 public class UserServiceImplement implements UserService {
     private static final Logger logger = LoggerFactory.getLogger(UserServiceImplement.class);
     private final UserRepository userRepo;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImplement(UserRepository userRepo) {
+    public UserServiceImplement(UserRepository userRepo, PasswordEncoder passwordEncoder) {
         this.userRepo = userRepo;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -32,6 +35,7 @@ public class UserServiceImplement implements UserService {
             userRepo.existsByEmail(user.getEmail())) {
                 return "Akun sudah terdaftar";
             }
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
             userRepo.save(user);
             return "Ok";
         } catch (Exception e) {
@@ -45,7 +49,7 @@ public class UserServiceImplement implements UserService {
         if(existsByUsername(loginRequest.getUsername())) {
             var user = findByUsername(loginRequest.getUsername());
             if (user.isPresent()) {
-                if (user.get().getPassword().equals(loginRequest.getPassword())){
+                if (passwordEncoder.matches(loginRequest.getPassword(), user.get().getPassword())) {
                     return "Ok";
                 }
             }
