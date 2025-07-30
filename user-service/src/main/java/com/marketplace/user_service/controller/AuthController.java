@@ -1,7 +1,9 @@
 package com.marketplace.user_service.controller;
 
+import com.marketplace.user_service.model.request.ChangePasswordRequest;
 import com.marketplace.user_service.model.request.LoginRequest;
 import com.marketplace.user_service.model.response.BaseResponse;
+import com.marketplace.user_service.model.response.ChangePasswordResponse;
 import com.marketplace.user_service.model.response.LoginResponse;
 import com.marketplace.user_service.service.interfaces.AuthService;
 import org.springframework.http.ResponseEntity;
@@ -22,5 +24,10 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<BaseResponse<LoginResponse>> login(@RequestBody LoginRequest loginRequest) {
         return ResponseEntity.ok(BaseResponse.ok(authService.login(loginRequest)));
+    }
+
+    @PostMapping("/change-password")
+    public ResponseEntity<BaseResponse<ChangePasswordResponse>> changePassword(@RequestBody ChangePasswordRequest request) {
+        return ResponseEntity.ok(BaseResponse.ok(authService.changePassword(request)));
     }
 }
