@@ -8,5 +8,6 @@ import com.marketplace.user_service.model.response.LoginResponse;
 public interface AuthService {
     LoginResponse login(LoginRequest loginRequest);
     String changePassword(ChangePasswordRequest request);
+    String forgotPassword(String email);
 
 }

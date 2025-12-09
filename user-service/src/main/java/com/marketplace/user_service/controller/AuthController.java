@@ -1,6 +1,7 @@
 package com.marketplace.user_service.controller;
 
 import com.marketplace.user_service.model.request.ChangePasswordRequest;
+import com.marketplace.user_service.model.request.ForgotPasswordRequest;
 import com.marketplace.user_service.model.request.LoginRequest;
 import com.marketplace.user_service.model.response.BaseResponse;
 import com.marketplace.user_service.model.response.ChangePasswordResponse;
@@ -29,5 +30,10 @@ public class AuthController {
     @PostMapping("/change-password")
     public ResponseEntity<BaseResponse<ChangePasswordResponse>> changePassword(@RequestBody ChangePasswordRequest request) {
         return ResponseEntity.ok(BaseResponse.ok(authService.changePassword(request)));
+    }
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity<BaseResponse<String>> forgotPassword(@RequestBody ForgotPasswordRequest request) {
+        return ResponseEntity.ok(BaseResponse.ok(authService.forgotPassword(request.getEmail())));
     }
 }
